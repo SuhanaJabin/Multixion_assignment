@@ -6,6 +6,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import PatientLoginSerializer
+from rest_framework import generics
+from .models import Patient
+from .serializers import PatientDetailSerializer
+from django.utils.translation import gettext as _
 
 class PatientSignupView(APIView):
     def post(self, request):
@@ -31,3 +35,8 @@ class PatientLoginView(APIView):
             }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PatientListView(generics.ListAPIView):
+    queryset = Patient.objects.all()  # Get all patients
+    serializer_class = PatientDetailSerializer

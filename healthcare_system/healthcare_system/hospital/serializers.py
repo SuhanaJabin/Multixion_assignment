@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from .models import User, Patient
 from django.contrib.auth import authenticate
+from django.utils.translation import gettext as _
 class PatientSignupSerializer(serializers.ModelSerializer):
     age = serializers.IntegerField(required=True)
     blood_group = serializers.ChoiceField(choices=[
@@ -52,3 +53,8 @@ class PatientLoginSerializer(serializers.Serializer):
 
         attrs['user'] = user  # Add the user object to the validated data
         return attrs
+
+class PatientDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ['user', 'age', 'blood_group', 'phone_no'] 
